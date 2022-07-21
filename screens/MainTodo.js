@@ -1,6 +1,6 @@
+import React from 'react';
 import { Card } from '../components/Card';
 import { TodoContext } from '../context/TodoContext';
-import React, { useContext } from 'react';
 
 export const MainTodo = ({ data }) => {
   return (
