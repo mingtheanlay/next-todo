@@ -4,7 +4,7 @@ export default function handler(req, res) {
   switch (req.method) {
     case 'DELETE':
       try {
-        const deletedTodo = todos.find((x) => x.id === parseInt(req.query.id));
+        const deletedTodo = todos.find(x => x.id === parseInt(req.query.id));
         if (deletedTodo) {
           todos.splice(todos.indexOf(deletedTodo), 1);
           res.status(200).json(todos);
@@ -17,7 +17,7 @@ export default function handler(req, res) {
       break;
     case 'PUT':
       try {
-        const updatedTodo = todos.find((x) => x.id === parseInt(req.query.id));
+        const updatedTodo = todos.find(x => x.id === parseInt(req.query.id));
         updatedTodo.todo = req.body.todo;
         updatedTodo.isCompleted = req.body.isCompleted;
         res.status(200).json(todos);
@@ -27,7 +27,7 @@ export default function handler(req, res) {
       break;
     default:
       res.setHeader('Allow', ['DELETE', 'PUT']);
-      res.status(405).end(`Method ${method} Not Allowed`);
+      res.status(405).end(`Method Not Allowed`);
       break;
   }
 }

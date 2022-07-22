@@ -1,6 +1,6 @@
 interface Props {
-  onChange: (value: string) => void
-  value: string
+  onChange: (value: string) => void;
+  value: string;
 }
 
 export const InputField: React.FC<Props> = ({ onChange, value }) => (
@@ -9,7 +9,7 @@ export const InputField: React.FC<Props> = ({ onChange, value }) => (
     type="text"
     placeholder="Add todo"
     value={value || ''}
-    onChange={(e) => onChange(e.target.value)}
+    onChange={e => onChange(e.target.value)}
     required
   />
-)
+);
