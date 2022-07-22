@@ -20,7 +20,7 @@ export const DataProvider: React.FC<any> = props => {
     fetchData();
   }, []);
 
-  const addTodo = todo => {
+  function addTodo(todo: string) {
     const newTodo = {
       id: Date.now(),
       todo: todo,
@@ -36,9 +36,9 @@ export const DataProvider: React.FC<any> = props => {
             setTodos([...todos, newTodo]);
           })
           .catch(err => console.log(err));
-  };
+  }
 
-  const completeTodo = id => {
+  function completeTodo(id: string) {
     const updatedTodo = todos.find(x => x.id === parseInt(id));
     // PUT todo to server
     axios
@@ -56,7 +56,7 @@ export const DataProvider: React.FC<any> = props => {
         setTodos(newTodo);
       })
       .catch(err => console.log(err));
-  };
+  }
 
   return (
     <DataContext.Provider value={[todos, setTodos, addTodo, completeTodo]}>
