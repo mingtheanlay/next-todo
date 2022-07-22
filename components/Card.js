@@ -1,28 +1,26 @@
-import { useContext } from 'react';
-import { TodoContext } from '../context/TodoContext';
 import { Button } from './Button';
 
-export const Card = ({ title, isCompleted }) => {
-  const msg = useContext(TodoContext);
+export const Card = ({ id, title, isCompleted, handleCompleteTodo }) => {
   return (
-    <div className='w-full items-center border-2 p-4 flex justify-between group'>
-      <h2
+    <li className='w-full items-center border-2 p-4 flex justify-between group'>
+      <h3
         className={`font-bold p-3 w-4/6 text-lg ${
           isCompleted && 'line-through'
         }`}
       >
         {title}
-      </h2>
+      </h3>
       <div className='w-2/6'>
         <div className='gap-3 h-10 group-hover:flex justify-end hidden'>
           <Button
-            name='Complete'
+            onClick={() => handleCompleteTodo(id)}
+            name={isCompleted ? 'Mark as Incomplete' : 'Mark Complete'}
             classNames='bg-green-500 hover:bg-green-300'
           />
           <Button name='Edit' classNames='bg-blue-500 hover:bg-blue-300' />
           <Button name='Remove' classNames='bg-red-500 hover:bg-red-300' />
         </div>
       </div>
-    </div>
+    </li>
   );
 };

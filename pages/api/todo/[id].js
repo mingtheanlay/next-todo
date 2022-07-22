@@ -4,9 +4,9 @@ export default function handler(req, res) {
   switch (req.method) {
     case 'DELETE':
       try {
-        const deletedUser = todos.find((x) => x.id === parseInt(req.query.id));
-        if (deletedUser) {
-          todos.splice(todos.indexOf(deletedUser), 1);
+        const deletedTodo = todos.find((x) => x.id === parseInt(req.query.id));
+        if (deletedTodo) {
+          todos.splice(todos.indexOf(deletedTodo), 1);
           res.status(200).json(todos);
         } else {
           res.status(404).json({ message: 'Not Found' });
@@ -17,10 +17,10 @@ export default function handler(req, res) {
       break;
     case 'PUT':
       try {
-        const updatedUser = todos.find((x) => x.id === parseInt(req.query.id));
-        updatedUser.todo = req.body.todo;
-        updatedUser.isCompleted = req.body.isCompleted;
-        res.status.json(todos);
+        const updatedTodo = todos.find((x) => x.id === parseInt(req.query.id));
+        updatedTodo.todo = req.body.todo;
+        updatedTodo.isCompleted = req.body.isCompleted;
+        res.status(200).json(todos);
       } catch (error) {
         return res.status(400).json({ message: 'Bad Request' });
       }
