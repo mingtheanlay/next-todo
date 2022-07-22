@@ -1,7 +1,7 @@
 export const todos = [
   {
     id: 0,
-    todo: 'Send assignment src to VTech',
+    todo: 'Send code challenge src to VTech',
     isCompleted: false,
     createdAt: '2022-07-19 16:37:22+00',
   },
