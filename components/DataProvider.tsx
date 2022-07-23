@@ -12,7 +12,7 @@ export const DataProvider: React.FC<any> = props => {
     fetchData();
   }, []);
 
-  async function fetchData() {
+  async function fetchData(): Promise<void> {
     await axios
       .get(URL)
       .then(res => {
@@ -21,7 +21,7 @@ export const DataProvider: React.FC<any> = props => {
       .catch(err => console.log(err));
   }
 
-  async function addTodo(todo: string) {
+  async function addTodo(todo: string): Promise<void> {
     const newTodo = {
       id: Date.now(),
       todo: todo,
@@ -45,7 +45,7 @@ export const DataProvider: React.FC<any> = props => {
     }
   }
 
-  async function completeTodo(id: string) {
+  async function completeTodo(id: string): Promise<void> {
     const updatedTodo = todos.find(x => x.id === parseInt(id));
 
     try {
@@ -71,8 +71,51 @@ export const DataProvider: React.FC<any> = props => {
     }
   }
 
+  async function removeTodo(id: string): Promise<void> {
+    try {
+      await axios
+        .delete(`${URL}/${id}`)
+        .then(() => {
+          const newTodo = todos.filter(x => x.id !== parseInt(id));
+          setTodos(newTodo);
+        })
+        .catch(err => {
+          throw new Error(err);
+        });
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async function editTodo(id: string, todo: string): Promise<void> {
+    const target = todos.find(x => x.id === parseInt(id));
+    const updatedTodo = {
+      ...target,
+      todo: todo
+    };
+
+    try {
+      await axios
+        .put(`${URL}/${id}`, updatedTodo)
+        .then(() => {
+          const newTodo = todos.map(x => {
+            if (x.id === parseInt(id)) {
+              x.todo = updatedTodo.todo;
+            }
+            return x;
+          });
+          setTodos(newTodo);
+        })
+        .catch(err => {
+          throw new Error(err);
+        });
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   return (
-    <DataContext.Provider value={[todos, setTodos, addTodo, completeTodo]}>
+    <DataContext.Provider value={[todos, setTodos, addTodo, completeTodo, removeTodo, editTodo]}>
       {props.children}
     </DataContext.Provider>
   );

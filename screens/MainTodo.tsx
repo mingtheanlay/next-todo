@@ -2,8 +2,17 @@ import React, { useContext } from 'react';
 import { Card } from '../components/Card';
 import { DataContext } from '../components/DataProvider';
 import { ITodos } from '../data/interface';
+interface Props {
+  handleCompleteTodo: (id: string) => void;
+  handleRemoveTodo: (id: string) => void;
+  handleEditTodo: (id: string, todo: string) => void;
+}
 
-export const MainTodo: React.FC<{ handleCompleteTodo: void }> = ({ handleCompleteTodo }) => {
+export const MainTodo: React.FC<Props> = ({
+  handleCompleteTodo,
+  handleRemoveTodo,
+  handleEditTodo
+}) => {
   const [todos] = useContext<ITodos[]>(DataContext);
   return (
     <ul className="flex flex-col items-center justify-center gap-2 py-4">
@@ -15,6 +24,8 @@ export const MainTodo: React.FC<{ handleCompleteTodo: void }> = ({ handleComplet
             title={x.todo}
             isCompleted={x.isCompleted}
             handleCompleteTodo={handleCompleteTodo}
+            handleRemoveTodo={handleRemoveTodo}
+            handleEditTodo={handleEditTodo}
           />
         ))}
     </ul>
