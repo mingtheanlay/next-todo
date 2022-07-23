@@ -9,18 +9,19 @@ export const DataProvider: React.FC<any> = props => {
   const URL = '/api/todo';
 
   useEffect(() => {
-    const fetchData = async () => {
-      await axios
-        .get(URL)
-        .then(res => {
-          setTodos(res.data);
-        })
-        .catch(err => console.log(err));
-    };
     fetchData();
   }, []);
 
-  function addTodo(todo: string) {
+  async function fetchData() {
+    await axios
+      .get(URL)
+      .then(res => {
+        setTodos(res.data);
+      })
+      .catch(err => console.log(err));
+  }
+
+  async function addTodo(todo: string) {
     const newTodo = {
       id: Date.now(),
       todo: todo,
@@ -29,7 +30,7 @@ export const DataProvider: React.FC<any> = props => {
     };
 
     try {
-      todos.find(x => x.todo === todo)
+      (await todos.find(x => x.todo === todo))
         ? alert('Todo is already in the list')
         : axios
             .post(URL, newTodo)
@@ -44,23 +45,22 @@ export const DataProvider: React.FC<any> = props => {
     }
   }
 
-  function completeTodo(id: string) {
+  async function completeTodo(id: string) {
     const updatedTodo = todos.find(x => x.id === parseInt(id));
 
     try {
-      axios
+      await axios
         .put(`${URL}/${id}`, {
-          ...updatedTodo,
-          isCompleted: !updatedTodo.isCompleted
+          todo: updatedTodo.todo,
+          isCompleted: true
         })
         .then(() => {
           const newTodo = todos.map(x => {
             if (x.id === parseInt(id)) {
-              x.isCompleted = !updatedTodo.isCompleted;
+              x.isCompleted = !x.isCompleted;
             }
             return x;
           });
-          console.log(newTodo);
           setTodos(newTodo);
         })
         .catch(err => {
