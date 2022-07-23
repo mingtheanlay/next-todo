@@ -8,11 +8,7 @@ interface Props {
   handleEditTodo: (id: string, todo: string) => void;
 }
 
-export const MainTodo: React.FC<Props> = ({
-  handleCompleteTodo,
-  handleRemoveTodo,
-  handleEditTodo
-}) => {
+const MainTodo: React.FC<Props> = ({ handleCompleteTodo, handleRemoveTodo, handleEditTodo }) => {
   const [todos] = useContext<ITodos[]>(DataContext);
   return (
     <ul className="flex flex-col items-center justify-center gap-2 py-4">
@@ -31,3 +27,5 @@ export const MainTodo: React.FC<Props> = ({
     </ul>
   );
 };
+
+export default MainTodo;

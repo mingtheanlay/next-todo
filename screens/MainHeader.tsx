@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { InputField } from '../components/InputField';
 
 interface Props {
