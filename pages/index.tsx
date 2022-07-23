@@ -1,9 +1,8 @@
-import dynamic from 'next/dynamic';
 import { useContext, useState } from 'react';
 import { DataContext } from '../components/DataProvider';
 import { Wrapper } from '../components/Wrapper';
 import { MainHeader } from '../screens/MainHeader';
-const MainTodo = dynamic(() => import('../screens/MainTodo'), { ssr: false });
+import { MainTodo } from '../screens/MainTodo';
 
 export default function Home() {
   const [todos, setTodos, addTodo, completeTodo, removeTodo, editTodo] = useContext(DataContext);
