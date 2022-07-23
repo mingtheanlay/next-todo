@@ -6,7 +6,8 @@ interface Props {
   isCompleted: boolean;
   handleCompleteTodo: (id: string) => void;
   handleRemoveTodo: (id: string) => void;
-  handleEditTodo: (id: string, todo: string) => void;
+  setIsEdit: (target: string) => void;
+  setData: (data: string) => void;
 }
 
 export const Card: React.FC<Props> = ({
@@ -15,32 +16,40 @@ export const Card: React.FC<Props> = ({
   isCompleted,
   handleCompleteTodo,
   handleRemoveTodo,
-  handleEditTodo
-}) => (
-  <li className="group flex w-full items-center justify-between rounded-md border-2 p-4">
-    <h3 className={`w-4/6 py-7 px-2 text-xl font-semibold ${isCompleted && 'line-through'}`}>
-      {title}
-    </h3>
-    <div className="w-2/6">
-      <div className="hidden flex-col justify-end gap-3 group-hover:flex md:flex-row lg:h-10">
-        <Button
-          onClick={() => handleCompleteTodo(id)}
-          name={isCompleted ? 'Mark as Incomplete' : 'Mark as Complete'}
-          classNames={
-            isCompleted ? 'bg-gray-500 hover:bg-gray-300' : 'bg-green-500 hover:bg-gray-300'
-          }
-        />
-        <Button
-          name="Edit"
-          classNames="bg-blue-500 hover:bg-blue-300"
-          onClick={() => handleEditTodo(id, 'x')}
-        />
-        <Button
-          name="Remove"
-          classNames="bg-red-500 hover:bg-red-300"
-          onClick={() => handleRemoveTodo(id)}
-        />
+  setIsEdit,
+  setData
+}) => {
+  function handleEdit(id: string, todo: string): void {
+    setIsEdit(id);
+    setData(todo);
+  }
+
+  return (
+    <li className="group flex w-full items-center justify-between rounded-md border-2 p-4">
+      <h3 className={`w-4/6 py-7 px-2 text-xl font-semibold ${isCompleted && 'line-through'}`}>
+        {title}
+      </h3>
+      <div className="w-2/6">
+        <div className="hidden flex-col justify-end gap-3 group-hover:flex md:flex-row lg:h-10">
+          <Button
+            onClick={() => handleCompleteTodo(id)}
+            name={isCompleted ? 'Mark as Incomplete' : 'Mark as Complete'}
+            classNames={
+              isCompleted ? 'bg-gray-500 hover:bg-gray-300' : 'bg-green-500 hover:bg-gray-300'
+            }
+          />
+          <Button
+            name="Edit"
+            classNames="bg-blue-500 hover:bg-blue-300"
+            onClick={() => handleEdit(id, title)}
+          />
+          <Button
+            name="Remove"
+            classNames="bg-red-500 hover:bg-red-300"
+            onClick={() => handleRemoveTodo(id)}
+          />
+        </div>
       </div>
-    </div>
-  </li>
-);
+    </li>
+  );
+};

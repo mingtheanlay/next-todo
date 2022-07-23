@@ -13,18 +13,24 @@ export default function Home() {
     setData(e.target.value);
   }
 
+  const [isEdit, setIsEdit] = useState('');
+
   return (
     <Wrapper>
       <MainHeader
-        handleAddTodo={addTodo}
         data={data}
+        isEdit={isEdit}
+        setIsEdit={setIsEdit}
         setData={setData}
         handleInputChange={handleInputChange}
+        handleEditTodo={editTodo}
+        handleAddTodo={addTodo}
       />
       <MainTodo
         handleCompleteTodo={completeTodo}
         handleRemoveTodo={removeTodo}
-        handleEditTodo={editTodo}
+        setIsEdit={setIsEdit}
+        setData={setData}
       />
     </Wrapper>
   );

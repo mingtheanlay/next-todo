@@ -5,13 +5,15 @@ import { ITodos } from '../data/interface';
 interface Props {
   handleCompleteTodo: (id: string) => void;
   handleRemoveTodo: (id: string) => void;
-  handleEditTodo: (id: string, todo: string) => void;
+  setIsEdit: (target: string) => void;
+  setData: (data: any) => void;
 }
 
 export const MainTodo: React.FC<Props> = ({
   handleCompleteTodo,
   handleRemoveTodo,
-  handleEditTodo
+  setIsEdit,
+  setData
 }) => {
   const [todos] = useContext<ITodos[]>(DataContext);
   return (
@@ -25,7 +27,8 @@ export const MainTodo: React.FC<Props> = ({
             isCompleted={x.isCompleted}
             handleCompleteTodo={handleCompleteTodo}
             handleRemoveTodo={handleRemoveTodo}
-            handleEditTodo={handleEditTodo}
+            setIsEdit={setIsEdit}
+            setData={setData}
           />
         ))}
     </ul>

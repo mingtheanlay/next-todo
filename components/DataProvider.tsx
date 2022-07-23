@@ -104,6 +104,7 @@ export const DataProvider: React.FC<any> = props => {
             }
             return x;
           });
+          alert('Todo has been edited');
           setTodos(newTodo);
         })
         .catch(err => {
