@@ -5,23 +5,23 @@ import { ITodos } from '../data/interface';
 export const DataContext = createContext(null);
 
 export const DataProvider: React.FC<any> = props => {
-  const [todos, setTodos] = useState<ITodos[]>([]);
   const URL = '/api/todo';
+  const [todos, setTodos] = useState<ITodos[]>([]);
 
   useEffect(() => {
     fetchData();
   }, []);
 
-  async function fetchData(): Promise<void> {
+  const fetchData = async (): Promise<void> => {
     await axios
       .get(URL)
       .then(res => {
         setTodos(res.data);
       })
       .catch(err => console.log(err));
-  }
+  };
 
-  async function addTodo(todo: string): Promise<void> {
+  const addTodo = async (todo: string): Promise<void> => {
     const newTodo = {
       id: Date.now(),
       todo: todo,
@@ -43,9 +43,9 @@ export const DataProvider: React.FC<any> = props => {
     } catch (error) {
       console.log(error);
     }
-  }
+  };
 
-  async function completeTodo(id: string): Promise<void> {
+  const completeTodo = async (id: string): Promise<void> => {
     const updatedTodo = todos.find(x => x.id === parseInt(id));
 
     try {
@@ -69,9 +69,9 @@ export const DataProvider: React.FC<any> = props => {
     } catch (error) {
       console.log(error);
     }
-  }
+  };
 
-  async function removeTodo(id: string): Promise<void> {
+  const removeTodo = async (id: string): Promise<void> => {
     try {
       await axios
         .delete(`${URL}/${id}`)
@@ -85,9 +85,9 @@ export const DataProvider: React.FC<any> = props => {
     } catch (error) {
       console.log(error);
     }
-  }
+  };
 
-  async function editTodo(id: string, todo: string): Promise<void> {
+  const editTodo = async (id: string, todo: string): Promise<void> => {
     const target = todos.find(x => x.id === parseInt(id));
     const updatedTodo = {
       ...target,
@@ -104,7 +104,6 @@ export const DataProvider: React.FC<any> = props => {
             }
             return x;
           });
-          alert('Todo has been edited');
           setTodos(newTodo);
         })
         .catch(err => {
@@ -113,7 +112,7 @@ export const DataProvider: React.FC<any> = props => {
     } catch (error) {
       console.log(error);
     }
-  }
+  };
 
   return (
     <DataContext.Provider value={[todos, setTodos, addTodo, completeTodo, removeTodo, editTodo]}>

@@ -8,6 +8,7 @@ interface Props {
   handleRemoveTodo: (id: string) => void;
   setIsEdit: (target: string) => void;
   setData: (data: string) => void;
+  classNames: string;
 }
 
 export const Card: React.FC<Props> = ({
@@ -17,15 +18,18 @@ export const Card: React.FC<Props> = ({
   handleCompleteTodo,
   handleRemoveTodo,
   setIsEdit,
-  setData
+  setData,
+  classNames
 }) => {
-  function handleEdit(id: string, todo: string): void {
+  const handleEdit = (id: string, todo: string): void => {
     setIsEdit(id);
     setData(todo);
-  }
+  };
 
   return (
-    <li className="group flex w-full items-center justify-between rounded-md border-2 p-4">
+    <li
+      className={`group flex w-full items-center justify-between rounded-md border-2 p-4 ${classNames}`}
+    >
       <h3 className={`w-4/6 py-7 px-2 text-xl font-semibold ${isCompleted && 'line-through'}`}>
         {title}
       </h3>

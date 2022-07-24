@@ -1,4 +1,5 @@
-import { useContext, useState } from 'react';
+import { ITodos } from 'data/interface';
+import { Fragment, useContext, useEffect, useState } from 'react';
 import { DataContext } from '../components/DataProvider';
 import { Wrapper } from '../components/Wrapper';
 import { MainHeader } from '../screens/MainHeader';
@@ -9,11 +10,9 @@ export default function Home() {
 
   const [data, setData] = useState();
 
-  function handleInputChange(e: any) {
-    setData(e.target.value);
-  }
-
   const [isEdit, setIsEdit] = useState('');
+
+  const [searchResult, setSearchResult] = useState<ITodos[]>([]);
 
   return (
     <Wrapper>
@@ -22,13 +21,15 @@ export default function Home() {
         isEdit={isEdit}
         setIsEdit={setIsEdit}
         setData={setData}
-        handleInputChange={handleInputChange}
         handleEditTodo={editTodo}
         handleAddTodo={addTodo}
+        handleSearchResult={setSearchResult}
       />
       <MainTodo
+        todos={searchResult.length > 0 ? searchResult : todos}
         handleCompleteTodo={completeTodo}
         handleRemoveTodo={removeTodo}
+        isEdit={isEdit}
         setIsEdit={setIsEdit}
         setData={setData}
       />
