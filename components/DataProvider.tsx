@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, { createContext, useEffect, useState } from 'react';
-import { ITodos } from '../data/interface';
+import { ITodos } from '../pages/api/todo/interface';
 
 export const DataContext = createContext(null);
 

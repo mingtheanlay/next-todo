@@ -1,6 +1,5 @@
-import { ITodos } from 'data/interface';
+import { ITodos } from 'pages/api/todo/interface';
 import { supabase } from 'util/supabaseClient';
-import { todos } from '../../../data/data';
 
 export default async function handler(req, res) {
   const data = await fetchTodos();
@@ -16,7 +15,6 @@ export default async function handler(req, res) {
     case 'POST':
       try {
         await addTodos(req.body);
-        todos.push(req.body);
         res.status(201).json(await findTodos(req.body.id));
       } catch (error) {
         return res.status(400).json({ message: 'Bad Request' });

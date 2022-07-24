@@ -1,4 +1,4 @@
-import { ITodos } from 'data/interface';
+import { ITodos } from 'pages/api/todo/interface';
 import { useContext, useEffect, useState } from 'react';
 import { DataContext } from '../components/DataProvider';
 import { Wrapper } from '../components/Wrapper';

@@ -1,4 +1,4 @@
-import { ITodos } from 'data/interface';
+import { ITodos } from 'pages/api/todo/interface';
 import { supabase } from 'util/supabaseClient';
 
 export default async function handler(req, res) {
