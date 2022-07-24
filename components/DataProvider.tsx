@@ -99,7 +99,11 @@ export const DataProvider: React.FC<any> = props => {
         .put(`${URL}/${id}`, updatedTodo)
         .then(() => {
           const newTodo = todos.map(x => {
-            x.id === parseInt(id) ? (x.todo = todo) : x;
+            if (x.todo === updatedTodo.todo) {
+              alert('Todo is already in the list');
+            } else if (x.id === parseInt(id)) {
+              x.todo = updatedTodo.todo;
+            }
             return x;
           });
           setTodos(newTodo);
