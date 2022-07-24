@@ -36,7 +36,9 @@ export const MainTodo: React.FC<Props> = ({
           ))}
         </ul>
       ) : (
-        <p className="text-center text-3xl font-bold text-gray-500">No result</p>
+        <p className="text-center text-3xl font-bold text-gray-500">
+          No result. Create a new one instead!
+        </p>
       )}
     </>
   );
