@@ -6,7 +6,7 @@ interface Props {
   isCompleted: boolean;
   handleCompleteTodo: (id: string) => void;
   handleRemoveTodo: (id: string) => void;
-  setIsEdit: (target: string) => void;
+  setEditTarget: (target: string) => void;
   setData: (data: string) => void;
   classNames: string;
 }
@@ -17,12 +17,12 @@ export const Card: React.FC<Props> = ({
   isCompleted,
   handleCompleteTodo,
   handleRemoveTodo,
-  setIsEdit,
+  setEditTarget,
   setData,
   classNames
 }) => {
   const handleEdit = (id: string, todo: string): void => {
-    setIsEdit(id);
+    setEditTarget(id);
     setData(todo);
   };
 

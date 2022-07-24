@@ -1,5 +1,5 @@
 import { ITodos } from 'data/interface';
-import { Fragment, useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { DataContext } from '../components/DataProvider';
 import { Wrapper } from '../components/Wrapper';
 import { MainHeader } from '../screens/MainHeader';
@@ -10,27 +10,40 @@ export default function Home() {
 
   const [data, setData] = useState();
 
-  const [isEdit, setIsEdit] = useState('');
+  const [editTarget, setEditTarget] = useState('');
 
-  const [searchResult, setSearchResult] = useState<ITodos[]>([]);
+  const [searchResult, setSearchResult] = useState<string>();
+
+  const [dataState, setDataStae] = useState<ITodos[]>(todos);
+
+  useEffect(() => {
+    if (searchResult) {
+      const target = todos.filter(x =>
+        x.todo.toLocaleLowerCase().includes(searchResult.toLocaleLowerCase())
+      );
+      setDataStae([...target]);
+    } else {
+      setDataStae([...todos]);
+    }
+  }, [searchResult, todos]);
 
   return (
     <Wrapper>
       <MainHeader
         data={data}
-        isEdit={isEdit}
-        setIsEdit={setIsEdit}
+        editTarget={editTarget}
+        setEditTarget={setEditTarget}
         setData={setData}
         handleEditTodo={editTodo}
         handleAddTodo={addTodo}
         handleSearchResult={setSearchResult}
       />
       <MainTodo
-        todos={searchResult.length > 0 ? searchResult : todos}
+        todos={dataState}
         handleCompleteTodo={completeTodo}
         handleRemoveTodo={removeTodo}
-        isEdit={isEdit}
-        setIsEdit={setIsEdit}
+        editTarget={editTarget}
+        setEditTarget={setEditTarget}
         setData={setData}
       />
     </Wrapper>

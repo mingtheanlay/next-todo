@@ -99,9 +99,7 @@ export const DataProvider: React.FC<any> = props => {
         .put(`${URL}/${id}`, updatedTodo)
         .then(() => {
           const newTodo = todos.map(x => {
-            if (x.id === parseInt(id)) {
-              x.todo = updatedTodo.todo;
-            }
+            x.id === parseInt(id) ? (x.todo = todo) : x;
             return x;
           });
           setTodos(newTodo);

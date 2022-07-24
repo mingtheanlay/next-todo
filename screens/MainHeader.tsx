@@ -1,40 +1,34 @@
-import { DataContext } from 'components/DataProvider';
-import { ITodos } from '../data/interface';
-import { useContext } from 'react';
 import { InputField } from '../components/InputField';
 
 interface Props {
   handleAddTodo: (todo: string) => void;
   data: string;
-  isEdit: string;
-  setIsEdit: (target: string) => void;
+  editTarget: string;
+  setEditTarget: (target: string) => void;
   setData: (data: any) => void;
   handleEditTodo: (id: string, todo: string) => void;
-  handleSearchResult: (data: ITodos[]) => void;
+  handleSearchResult: (todo: string) => void;
 }
 
 export const MainHeader: React.FC<Props> = ({
   handleAddTodo,
   data,
   setData,
-  isEdit,
-  setIsEdit,
+  editTarget,
+  setEditTarget,
   handleSearchResult,
   handleEditTodo
 }) => {
-  const [todos] = useContext<ITodos[]>(DataContext);
   const handleSubmit = (e: any): void => {
     e.preventDefault();
-    isEdit === '' ? handleAddTodo(data) : handleEditTodo(isEdit, data);
-    setIsEdit('');
+    editTarget === '' ? handleAddTodo(data) : handleEditTodo(editTarget, data);
+    setEditTarget('');
     setData('');
+    handleSearchResult('');
   };
 
   const findTodo = (todo: string): void => {
-    const target =
-      Array.isArray(todos) &&
-      todos.filter(x => x.todo.toLocaleLowerCase().includes(todo.toLocaleLowerCase()));
-    handleSearchResult(target);
+    handleSearchResult(todo);
   };
 
   const handleOnChange = (e: any): void => {

@@ -1,13 +1,11 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { Card } from '../components/Card';
-import { DataContext } from '../components/DataProvider';
-import { ITodos } from '../data/interface';
 interface Props {
   todos: any[];
   handleCompleteTodo: (id: string) => void;
   handleRemoveTodo: (id: string) => void;
-  isEdit: string;
-  setIsEdit: (target: string) => void;
+  editTarget: string;
+  setEditTarget: (target: string) => void;
   setData: (data: any) => void;
 }
 
@@ -15,13 +13,13 @@ export const MainTodo: React.FC<Props> = ({
   todos,
   handleCompleteTodo,
   handleRemoveTodo,
-  isEdit,
-  setIsEdit,
+  editTarget,
+  setEditTarget,
   setData
 }) => {
   return (
     <>
-      {true ? (
+      {todos.length > 0 ? (
         <ul className="flex flex-col items-center justify-center gap-2 py-4">
           {todos.map(x => (
             <Card
@@ -31,9 +29,9 @@ export const MainTodo: React.FC<Props> = ({
               isCompleted={x.isCompleted}
               handleCompleteTodo={handleCompleteTodo}
               handleRemoveTodo={handleRemoveTodo}
-              setIsEdit={setIsEdit}
+              setEditTarget={setEditTarget}
               setData={setData}
-              classNames={isEdit === x.id ? 'border-blue-500' : ''}
+              classNames={editTarget === x.id ? 'border-blue-500' : ''}
             />
           ))}
         </ul>
