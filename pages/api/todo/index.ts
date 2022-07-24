@@ -1,18 +1,23 @@
+import { ITodos } from 'data/interface';
+import { supabase } from 'util/supabaseClient';
 import { todos } from '../../../data/data';
 
-export default function handler(req, res) {
+export default async function handler(req, res) {
+  const data = await fetchTodos();
+
   switch (req.method) {
     case 'GET':
       try {
-        res.status(200).json(todos);
+        res.status(200).json(data);
       } catch (error) {
         return res.status(400).json({ message: 'Bad Request' });
       }
       break;
     case 'POST':
       try {
+        await addTodos(req.body);
         todos.push(req.body);
-        res.status(201).json(todos);
+        res.status(201).json(await findTodos(req.body.id));
       } catch (error) {
         return res.status(400).json({ message: 'Bad Request' });
       }
@@ -23,3 +28,33 @@ export default function handler(req, res) {
       break;
   }
 }
+
+export const fetchTodos = async () => {
+  const { data, error } = await supabase
+    .from('todos')
+    .select();
+  return data;
+}
+
+export const addTodos = async (todo: ITodos) => {
+  await supabase
+    .from('todos')
+    .insert([
+      {
+        id: todo.id,
+        todo: todo.todo,
+        isCompleted: todo.isCompleted,
+        createdat: todo.createdAt
+      }
+    ])
+}
+
+export const findTodos = async (id: number) => {
+  const { data, error } = await supabase
+    .from('todos')
+    .select()
+    .match({ id });
+  return data;
+}
+
+

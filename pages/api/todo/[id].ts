@@ -1,26 +1,23 @@
-import { todos } from '../../../data/data';
+import { ITodos } from 'data/interface';
+import { supabase } from 'util/supabaseClient';
 
-export default function handler(req, res) {
+export default async function handler(req, res) {
+  const { data, error } = await supabase
+    .from('todos')
+    .select();
   switch (req.method) {
     case 'DELETE':
       try {
-        const deletedTodo = todos.find(x => x.id === parseInt(req.query.id));
-        if (deletedTodo) {
-          todos.splice(todos.indexOf(deletedTodo), 1);
-          res.status(200).json(todos);
-        } else {
-          res.status(404).json({ message: 'Not Found' });
-        }
+        const data = await deletePost(req.query.id);
+        res.status(200).json(data);
       } catch (error) {
         return res.status(400).json({ message: 'Bad Request' });
       }
       break;
     case 'PUT':
       try {
-        const updatedTodo = todos.find(x => x.id === parseInt(req.query.id));
-        updatedTodo.todo = req.body.todo;
-        updatedTodo.isCompleted = req.body.isCompleted;
-        res.status(200).json(todos);
+        const data = await updatePost(req.query.id, req.body);
+        res.status(200).json(data);
       } catch (error) {
         return res.status(400).json({ message: 'Bad Request' });
       }
@@ -30,4 +27,25 @@ export default function handler(req, res) {
       res.status(405).end(`Method Not Allowed`);
       break;
   }
+}
+
+export const deletePost = async (id: number) => {
+  const { data, error } = await supabase
+    .from('todos')
+    .delete()
+    .match({ id });
+  return data
+}
+
+export const updatePost = async (id: number, todo: ITodos) => {
+  const { data, error } = await supabase
+    .from('todos')
+    .update(
+      {
+        todo: todo.todo,
+        isCompleted: todo.isCompleted,
+      }
+    )
+    .match({ id: id });
+  return data
 }
