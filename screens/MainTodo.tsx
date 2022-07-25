@@ -36,9 +36,9 @@ export const MainTodo: React.FC<Props> = ({
           ))}
         </ul>
       ) : (
-        <p className="text-center text-3xl font-bold text-gray-500">
+       <h3 className="text-center text-xl md:text-3xl font-bold text-gray-500">
           No result. Create a new one instead!
-        </p>
+        </h3>
       )}
     </>
   );
