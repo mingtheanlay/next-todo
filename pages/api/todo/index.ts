@@ -2,20 +2,20 @@ import { ITodos } from 'pages/api/todo/interface';
 import { supabase } from 'util/supabaseClient';
 
 export default async function handler(req, res) {
-  const data = await fetchTodos();
 
   switch (req.method) {
     case 'GET':
       try {
-        res.status(200).json(data);
+        const { data, error } = await fetchTodos();
+        error ? res.status(400).json({ message: 'Bad Request' }) : res.status(200).json(data);
       } catch (error) {
         return res.status(400).json({ message: 'Bad Request' });
       }
       break;
     case 'POST':
       try {
-        await addTodos(req.body);
-        res.status(201).json(await findTodos(req.body.id));
+        const { data, error } = await addTodos(req.body);
+        error ? res.status(400).json({ message: 'Bad Request' }) : res.status(200).json(data);
       } catch (error) {
         return res.status(400).json({ message: 'Bad Request' });
       }
@@ -31,11 +31,11 @@ export const fetchTodos = async () => {
   const { data, error } = await supabase
     .from('todos')
     .select();
-  return data;
+  return { data, error };
 }
 
 export const addTodos = async (todo: ITodos) => {
-  await supabase
+  const { data, error } = await supabase
     .from('todos')
     .insert([
       {
@@ -45,6 +45,7 @@ export const addTodos = async (todo: ITodos) => {
         createdat: todo.createdAt
       }
     ])
+  return { data, error };
 }
 
 export const findTodos = async (id: number) => {
@@ -52,7 +53,7 @@ export const findTodos = async (id: number) => {
     .from('todos')
     .select()
     .match({ id });
-  return data;
+  return { data, error };
 }
 
 
