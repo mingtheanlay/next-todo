@@ -52,7 +52,7 @@ export const DataProvider: React.FC<any> = props => {
       await axios
         .put(`${URL}/${id}`, {
           todo: updatedTodo.todo,
-          isCompleted: true
+          isCompleted: !updatedTodo.isCompleted
         })
         .then(() => {
           const newTodo = todos.map(x => {
